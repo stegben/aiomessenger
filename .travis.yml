@@ -14,7 +14,7 @@ matrix:
 before_install:
   - sudo apt-get update
   - sudo apt-get install pandoc -y
-  - sudo pip install pipenv
+  - pip install pipenv codecov
 
 install:
 - pipenv install --dev
