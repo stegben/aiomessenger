@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 aiomessenger = {editable = true, path = "."}
+aiohttp = "*"
 
 [dev-packages]
 "flake8-config-yoctol" = ">=0.0.11"
