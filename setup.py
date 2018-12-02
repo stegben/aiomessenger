@@ -14,7 +14,7 @@ setup(
     description=long_description,
     author="cph",
     author_email="stegben.benjamin@gmail.com",
-    url="https://github.com/stegben/messenger-api-py",
+    url="https://github.com/stegben/aiomessenger",
     packages=find_packages(),
     install_requires=REQUIRED_PACKAGES,
     long_description=long_description,
