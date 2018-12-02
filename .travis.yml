@@ -1,0 +1,35 @@
+language: python
+
+cache: pip
+
+python:
+- '3.5'
+- '3.6'
+- 'nightly'
+
+matrix:
+  allow_failures:
+  - python: 'nightly'
+
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install pandoc -y
+
+install:
+- make install
+
+script:
+- make lint
+- make test
+
+deploy:
+  provider: pypi
+  user: stegben
+  password:
+    secure: "BLQ1LvZZxyOEuTTBkq0RwW3xJXLuNmymmKC6Wah8gcY67PIkr5CQD8sGRDICBs+Wyd7L25lneKaR3BRQ1JnTIwrbtKAxQgJtqU+KQ7mRiIvUBXxgW9JC3IrV0z7G2kPz7+n/tZFwvpHyyUvxR4H1dhg43OFptMv6RMw8T9dIaUJ3PnOwt+SWBjhpKte5kCtLsUImSY9ml2ONn5ZsDRpjAvuiiU82VNHcYi5PDqrn5gW8UNpwQtiHWnffs4HdbxDdcuNX3tisuHfuGQAIkD7D4umsnShhMEBuq88LMyyMW728IvP2ihpt2QHHdmcMQ6XAtMiYS6WjVltJVQAxnRbuBs/nLbSFWIWAZGBhaOn8aayaPuuWj6cRa2417Ta5LSVPhW1Zb7F26Q3pLAqsMxb8+wUButc+l+LwauIZU4cCViKz5L+iiKduDGddXvtqgLXOgR6Hv0kOpXYB6730KhG4EynITjJpcSma8CyvR8e1t6QceuR4QKtEXsRFucSYYjSLtTnRckNRLekfUd/0N/DoO7K5Wz0XO5DX1M6QAjFQctG6/EW40s1r1F4IRo/r6X5Sjzqvh2UGXE/ilCUAYdqkb6KRIo402exnlUUhPXWgaq7EFgjdRGWME4sBOoi7hA9aMPcn6wl5Wtb6HSwsEh6GsPeWxmF0EokJyGRmKpI50z8="
+  distributions: sdist
+  skip_upload_docs: true
+  skip_cleanup: true
+  on:
+    tags: true
+    python: 3.6

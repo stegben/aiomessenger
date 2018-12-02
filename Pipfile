@@ -1,0 +1,15 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+aiomessenger = {editable = true, path = "."}
+
+[dev-packages]
+"flake8-config-yoctol" = ">=0.0.11"
+pytest = "*"
+pytest-cov = "*"
+
+[requires]
+python_version = "3.6"
