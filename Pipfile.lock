@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "5a12e2ab29c41ac3f5c8f8572ae0663d4937291e6034fdbead5b8d858b7a0b11"
+            "sha256": "d518e0d865287804a3cdaa00d1108715cb02611a147045ea594b590852cee7da"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -133,6 +133,14 @@
         }
     },
     "develop": {
+        "asynctest": {
+            "hashes": [
+                "sha256:56bd75b03df55956d57437db26700503d1013616314db5d1ea1a73be1186fd71",
+                "sha256:77520850ae21620ec31738f4a7b467acaa44de6d3752d8ac7a9f4dcf55d77853"
+            ],
+            "index": "pypi",
+            "version": "==0.12.2"
+        },
         "atomicwrites": {
             "hashes": [
                 "sha256:0312ad34fcad8fac3704d441f7b317e50af620823353ec657a53e981f92920c0",
@@ -290,6 +298,14 @@
             ],
             "index": "pypi",
             "version": "==4.0.1"
+        },
+        "pytest-asyncio": {
+            "hashes": [
+                "sha256:a962e8e1b6ec28648c8fe214edab4e16bacdb37b52df26eb9d63050af309b2a9",
+                "sha256:fbd92c067c16111174a1286bfb253660f1e564e5146b39eeed1133315cf2c2cf"
+            ],
+            "index": "pypi",
+            "version": "==0.9.0"
         },
         "pytest-cov": {
             "hashes": [
