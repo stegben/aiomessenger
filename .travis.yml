@@ -14,13 +14,14 @@ matrix:
 before_install:
   - sudo apt-get update
   - sudo apt-get install pandoc -y
+  - sudo pip install pipenv
 
 install:
-- make install
+- pipenv install
 
 script:
-- make lint
-- make test
+- pipenv run make lint
+- pipenv run make test
 
 deploy:
   provider: pypi
