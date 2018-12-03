@@ -5,16 +5,16 @@ cache: pip
 python:
 - '3.5'
 - '3.6'
-- 'nightly'
+- nightly
 
 matrix:
   allow_failures:
-  - python: 'nightly'
+  - python: nightly
 
 before_install:
-  - sudo apt-get update
-  - sudo apt-get install pandoc -y
-  - pip install pipenv codecov
+- sudo apt-get update
+- sudo apt-get install pandoc -y
+- pip install pipenv codecov
 
 install:
 - pipenv install --dev
@@ -27,13 +27,11 @@ deploy:
   provider: pypi
   user: stegben
   password:
-    secure: "V4M2OOK9MoHRMQp6mak6YctWgTaJl4eNeR4UbFq/UVQuK26ABIFRiSIXfYLjh3icAqb57ufXF53WRvQM4Wg8zBqQapzLF6AANN1f/+cdm3iw8aMuFuMIPFJJ544kT7eyRX1EHSiEFo0YKk3m1PIkwMANLDWPDitJ4S8Y+I9p3tfu9NXw88CUIby/AHeS/gYUu7t4qUeyK82agyVRbmFZalgFllnrqZnMJtCalr2tIuZI3jsX+gaqKXqGqvtDetewA+cEWurjyFRmYdQqhojNn4ETvtMF5T2NpJCVgQDn8GOYTyuTAG4FpL7/y0ZAX/qPRz1suKsrYjGZPN39w8DtFG5pby2ALECxTZ89rAGV0SEPffLhyrn7+SJ8/6Y5SMGM5RM7tPVpP6GjlR+3VTuzbB6k4ZW01CVl7TlDiAt1ZGJQcpY+eb9zmqcIyd/5ShUyF4g1Zad5h3xUdksoES1hoOqob2/urob4eJIqCguAfv2QVKqX1XmDC2+qk4GORkFnhpNuWcWckrmrEdC4JH8FDl3VdEFgxq4ZcYmtVTw/II6vAlpPDUKG+Qo3m0CDxtNZtifZv7Kb6qR7kD6EyLXvd+vF+eSJMGqleG6mTVYQEpFOOihQJ0V4aXwh/QSVBRK5qLaqCPEUZFmV/Pk1C/SDxEYnXgwPCGmmvYR7cjc020A="
-  distributions: sdist
-  skip_upload_docs: true
-  skip_cleanup: true
+    secure: iNM+wRZue8ETXRZkPwYq9LcGOhf9HwWUnRR9r4LERhqR/1JVtR7zLRMstvoL6TZtk35QlKTFGPFSf1wk6HQC1i+Z6nGtDqcAQH0iep2uPba6PZy2T0MuvT1w5Qdv8xiiR7E7AFs76LrsYpQXBxrM/+qrah4joMcyhuK1ggA8otHPLUR/M0B3/UlzY+FkAeGQfrweuQl4ARk0oZW8kYbkn/ceKEdVS0Pa0OrUngFISdZ2hGbCibPFEMyg9fpuh8L4LUcJ0VvvYLVWC3YaMaa0h/W4DUfUoLtbSRYZR6sclf3jHMDp4FfjogeWNeWUbihKKhGbydEYplVmhKTpJwFQ2RMwGIPbMnxTHdTzPjE6k3l0v8xfpGZBKPp+UOEk4crOrngz++7EXwERsbZwljfQgu9sQX3ZtUcRjAMN37tGI2/dK2jKHieMFuZBWgDDyEixDY6474QMriPn95/yPP5UkaDNxwVJnPzZtMoEkWIpkyH/fu4J8npmhmoJAgU5enGgTXG7ROI1lt3CGgcmh4yqPt1SiZSSncg6M/N9+AlJdAjbmp70aN8J0sahIorVFQMy3+//DR1YuI8MlUvvtdElVPM7QZD3gdGbxOoSO6BwB1y5a67+r5GBRxR/T2J5rKE6Hs35GQX8zHE1iQAErMdUdRw0mygUM9vFzeBJgie3LKY=
   on:
     tags: true
-    python: 3.6
+    distributions: sdist bdist_wheel
+    repo: stegben/aiomessenger
 
 after_success:
-  - codecov
+- codecov
