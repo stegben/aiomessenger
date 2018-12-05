@@ -19,7 +19,7 @@ REQUIRED_PACKAGES = []
 
 setup(
     name="aiomessenger",
-    version="0.2.2",
+    version="0.3.0",
     description=long_description,
     author="cph",
     author_email="stegben.benjamin@gmail.com",
