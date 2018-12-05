@@ -161,6 +161,27 @@ async def test_send_raw_data(client):
 
 
 @pytest.mark.asyncio
+async def test_send_raw_data_with_persona_id(client):
+    client.post = CoroutineMock()
+    psid = '12uyg34iu12y34'
+    message = {'text': 'hello'}
+    messaging_type = 'UPDATE'
+    persona_id = 'asdf'
+    await client.send_raw_data(psid, message, messaging_type, persona_id)
+    client.post.assert_called_once_with(
+        '/me/messages',
+        data={
+            "messaging_type": messaging_type,
+            "recipient": {
+                "id": psid,
+            },
+            'message': message,
+            'persona_id': persona_id,
+        },
+    )
+
+
+@pytest.mark.asyncio
 async def test_debug_token(client):
     client.get = CoroutineMock()
     await client.debug_token()

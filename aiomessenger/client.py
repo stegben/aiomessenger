@@ -84,6 +84,7 @@ class Client:
             psid: str,
             message: Mapping[str, str],
             messaging_type: str,
+            persona_id: str = None,
         ):
         # TODO: validate messaging to have correct value
         # ref: https://developers.facebook.com/docs/messenger-platform/send-messages/#messaging_types  # noqa
@@ -94,6 +95,8 @@ class Client:
             },
             'message': message,
         }
+        if persona_id is not None:
+            post_data['persona_id'] = persona_id
         resp = await self.post('/me/messages', data=post_data)
         return resp
 
