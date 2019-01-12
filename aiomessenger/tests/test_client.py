@@ -144,18 +144,26 @@ async def test_post_with_param_and_data(client):
 @pytest.mark.asyncio
 async def test_send_raw_data(client):
     client.post = CoroutineMock()
-    psid = '12uyg34iu12y34'
-    message = {'text': 'hello'}
     messaging_type = 'UPDATE'
-    await client.send_raw_data(psid, message, messaging_type)
+    recipient = {'id': '12uyg34iu12y34'}
+    message = {'text': 'hello'}
+    notification_type = 'SILENT_PUSH'
+    persona_id = 'asdf'
+    await client.send_raw_data(
+        messaging_type,
+        recipient,
+        message,
+        notification_type,
+        persona_id=persona_id,
+    )
     client.post.assert_called_once_with(
         '/me/messages',
         data={
             "messaging_type": messaging_type,
-            "recipient": {
-                "id": psid,
-            },
+            "recipient": recipient,
             'message': message,
+            'notification_type': notification_type,
+            'persona_id': persona_id,
         },
     )
 
@@ -163,20 +171,53 @@ async def test_send_raw_data(client):
 @pytest.mark.asyncio
 async def test_send_raw_data_with_persona_id(client):
     client.post = CoroutineMock()
-    psid = '12uyg34iu12y34'
-    message = {'text': 'hello'}
     messaging_type = 'UPDATE'
+    recipient = {'id': '12uyg34iu12y34'}
+    message = {'text': 'hello'}
+    notification_type = 'SILENT_PUSH'
     persona_id = 'asdf'
-    await client.send_raw_data(psid, message, messaging_type, persona_id)
+    await client.send_raw_data(
+        messaging_type,
+        recipient,
+        message,
+        notification_type,
+        persona_id=persona_id,
+    )
     client.post.assert_called_once_with(
         '/me/messages',
         data={
             "messaging_type": messaging_type,
-            "recipient": {
-                "id": psid,
-            },
+            "recipient": recipient,
             'message': message,
+            'notification_type': notification_type,
             'persona_id': persona_id,
+        },
+    )
+
+
+@pytest.mark.asyncio
+async def test_send_raw_data_with_tag(client):
+    client.post = CoroutineMock()
+    messaging_type = 'UPDATE'
+    recipient = {'id': '12uyg34iu12y34'}
+    message = {'text': 'hello'}
+    notification_type = 'SILENT_PUSH'
+    tag = 'SHIPPING_UPDATE'
+    await client.send_raw_data(
+        messaging_type,
+        recipient,
+        message,
+        notification_type,
+        tag=tag,
+    )
+    client.post.assert_called_once_with(
+        '/me/messages',
+        data={
+            "messaging_type": messaging_type,
+            "recipient": recipient,
+            'message': message,
+            'notification_type': notification_type,
+            'tag': tag,
         },
     )
 

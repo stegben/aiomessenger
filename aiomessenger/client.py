@@ -8,6 +8,19 @@ GRAPH_URL = 'https://graph.facebook.com'
 GRAPH_API_VERSION = '3.2'
 
 
+_ALLOWED_NOTIFICATION_TYPE = [
+    'REGULAR',
+    'SILENT_PUSH',
+    'NO_PUSH',
+]
+
+_ALLOWED_MESSAGING_TYPE = [
+    'RESPONSE',
+    'UPDATE',
+    'MESSAGE_TAG',
+]
+
+
 class Client:
 
     # TODO: list all members here
@@ -81,22 +94,32 @@ class Client:
 
     async def send_raw_data(
             self,
-            psid: str,
-            message: Mapping[str, str],
             messaging_type: str,
+            recipient: Mapping[str, str],
+            message: Mapping[str, str],
+            notification_type: str = 'REGULAR',
+            attachment: str = None,
+            tag: str = None,
             persona_id: str = None,
         ):
-        # TODO: validate messaging to have correct value
         # ref: https://developers.facebook.com/docs/messenger-platform/send-messages/#messaging_types  # noqa
+        assert messaging_type in _ALLOWED_MESSAGING_TYPE
+        assert notification_type in _ALLOWED_NOTIFICATION_TYPE
+
         post_data = {
             "messaging_type": messaging_type,
-            "recipient": {
-                "id": psid,
-            },
+            "recipient": recipient,
             'message': message,
+            'notification_type': notification_type,
         }
+
+        if attachment is not None:
+            post_data['attachment'] = attachment
         if persona_id is not None:
             post_data['persona_id'] = persona_id
+        if tag is not None:
+            post_data['tag'] = tag
+
         resp = await self.post('/me/messages', data=post_data)
         return resp
 
