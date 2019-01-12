@@ -92,7 +92,7 @@ class Client:
         async with self._session.post(target_url, params=params, json=data) as resp:
             return await resp.json()
 
-    async def send_raw_data(
+    async def send_message(
             self,
             messaging_type: str,
             recipient: Mapping[str, str],

@@ -142,14 +142,14 @@ async def test_post_with_param_and_data(client):
 
 
 @pytest.mark.asyncio
-async def test_send_raw_data(client):
+async def test_send_message(client):
     client.post = CoroutineMock()
     messaging_type = 'UPDATE'
     recipient = {'id': '12uyg34iu12y34'}
     message = {'text': 'hello'}
     notification_type = 'SILENT_PUSH'
     persona_id = 'asdf'
-    await client.send_raw_data(
+    await client.send_message(
         messaging_type,
         recipient,
         message,
@@ -169,14 +169,14 @@ async def test_send_raw_data(client):
 
 
 @pytest.mark.asyncio
-async def test_send_raw_data_with_persona_id(client):
+async def test_send_message_with_persona_id(client):
     client.post = CoroutineMock()
     messaging_type = 'UPDATE'
     recipient = {'id': '12uyg34iu12y34'}
     message = {'text': 'hello'}
     notification_type = 'SILENT_PUSH'
     persona_id = 'asdf'
-    await client.send_raw_data(
+    await client.send_message(
         messaging_type,
         recipient,
         message,
@@ -196,14 +196,14 @@ async def test_send_raw_data_with_persona_id(client):
 
 
 @pytest.mark.asyncio
-async def test_send_raw_data_with_tag(client):
+async def test_send_message_with_tag(client):
     client.post = CoroutineMock()
     messaging_type = 'UPDATE'
     recipient = {'id': '12uyg34iu12y34'}
     message = {'text': 'hello'}
     notification_type = 'SILENT_PUSH'
     tag = 'SHIPPING_UPDATE'
-    await client.send_raw_data(
+    await client.send_message(
         messaging_type,
         recipient,
         message,
