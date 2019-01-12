@@ -98,7 +98,6 @@ class Client:
             recipient: Union[str, Mapping[str, str]],
             message: Mapping[str, str],
             notification_type: str = 'REGULAR',
-            attachment: str = None,
             tag: str = None,
             persona_id: str = None,
         ):
@@ -115,8 +114,6 @@ class Client:
             'notification_type': notification_type,
         }
 
-        if attachment is not None:
-            post_data['attachment'] = attachment
         if persona_id is not None:
             post_data['persona_id'] = persona_id
         if tag is not None:
