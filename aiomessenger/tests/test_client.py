@@ -169,6 +169,33 @@ async def test_send_message(client):
 
 
 @pytest.mark.asyncio
+async def test_send_message_with_psid(client):
+    client.post = CoroutineMock()
+    messaging_type = 'UPDATE'
+    recipient = '12uyg34iu12y34'
+    message = {'text': 'hello'}
+    notification_type = 'SILENT_PUSH'
+    persona_id = 'asdf'
+    await client.send_message(
+        messaging_type,
+        recipient,
+        message,
+        notification_type,
+        persona_id=persona_id,
+    )
+    client.post.assert_called_once_with(
+        '/me/messages',
+        data={
+            "messaging_type": messaging_type,
+            "recipient": {'id': recipient},
+            'message': message,
+            'notification_type': notification_type,
+            'persona_id': persona_id,
+        },
+    )
+
+
+@pytest.mark.asyncio
 async def test_send_message_with_persona_id(client):
     client.post = CoroutineMock()
     messaging_type = 'UPDATE'
@@ -219,6 +246,33 @@ async def test_send_message_with_tag(client):
             'notification_type': notification_type,
             'tag': tag,
         },
+    )
+
+
+@pytest.mark.asyncio
+async def test_send_text(client):
+    client.send_message = CoroutineMock()
+    messaging_type = 'UPDATE'
+    recipient = '12uyg34iu12y34'
+    text = 'hello'
+    notification_type = 'SILENT_PUSH'
+    tag = 'SHIPPING_UPDATE'
+    persona_id = 'asdf'
+    await client.send_text(
+        recipient=recipient,
+        text=text,
+        messaging_type=messaging_type,
+        notification_type=notification_type,
+        tag=tag,
+        persona_id=persona_id,
+    )
+    client.send_message.assert_called_once_with(
+        recipient=recipient,
+        message={'text': text},
+        messaging_type=messaging_type,
+        notification_type=notification_type,
+        tag=tag,
+        persona_id=persona_id,
     )
 
 

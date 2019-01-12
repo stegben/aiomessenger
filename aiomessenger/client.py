@@ -1,5 +1,5 @@
 import asyncio as aio
-from typing import Optional, Mapping
+from typing import Optional, Mapping, Union
 
 from aiohttp import ClientSession
 
@@ -95,7 +95,7 @@ class Client:
     async def send_message(
             self,
             messaging_type: str,
-            recipient: Mapping[str, str],
+            recipient: Union[str, Mapping[str, str]],
             message: Mapping[str, str],
             notification_type: str = 'REGULAR',
             attachment: str = None,
@@ -106,6 +106,8 @@ class Client:
         assert messaging_type in _ALLOWED_MESSAGING_TYPE
         assert notification_type in _ALLOWED_NOTIFICATION_TYPE
 
+        if isinstance(recipient, str):
+            recipient = {'id': recipient}
         post_data = {
             "messaging_type": messaging_type,
             "recipient": recipient,
@@ -121,6 +123,26 @@ class Client:
             post_data['tag'] = tag
 
         resp = await self.post('/me/messages', data=post_data)
+        return resp
+
+    async def send_text(
+            self,
+            recipient: Union[str, Mapping[str, str]],
+            text: str,
+            messaging_type: str = 'UPDATE',
+            notification_type: str = 'REGULAR',
+            tag: str = None,
+            persona_id: str = None,
+        ):
+        message = {'text': text}
+        resp = await self.send_message(
+            recipient=recipient,
+            message=message,
+            messaging_type=messaging_type,
+            notification_type=notification_type,
+            tag=tag,
+            persona_id=persona_id,
+        )
         return resp
 
     async def debug_token(self):
