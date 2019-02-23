@@ -1,11 +1,24 @@
 import asyncio as aio
-from typing import Optional, Mapping
+from typing import Optional, Mapping, Union
 
 from aiohttp import ClientSession
 
 
 GRAPH_URL = 'https://graph.facebook.com'
 GRAPH_API_VERSION = '3.2'
+
+
+_ALLOWED_NOTIFICATION_TYPE = [
+    'REGULAR',
+    'SILENT_PUSH',
+    'NO_PUSH',
+]
+
+_ALLOWED_MESSAGING_TYPE = [
+    'RESPONSE',
+    'UPDATE',
+    'MESSAGE_TAG',
+]
 
 
 class Client:
@@ -79,25 +92,54 @@ class Client:
         async with self._session.post(target_url, params=params, json=data) as resp:
             return await resp.json()
 
-    async def send_raw_data(
+    async def send_message(
             self,
-            psid: str,
-            message: Mapping[str, str],
             messaging_type: str,
+            recipient: Union[str, Mapping[str, str]],
+            message: Mapping[str, str],
+            notification_type: str = 'REGULAR',
+            tag: str = None,
             persona_id: str = None,
         ):
-        # TODO: validate messaging to have correct value
         # ref: https://developers.facebook.com/docs/messenger-platform/send-messages/#messaging_types  # noqa
+        assert messaging_type in _ALLOWED_MESSAGING_TYPE
+        assert notification_type in _ALLOWED_NOTIFICATION_TYPE
+
+        if isinstance(recipient, str):
+            recipient = {'id': recipient}
         post_data = {
             "messaging_type": messaging_type,
-            "recipient": {
-                "id": psid,
-            },
+            "recipient": recipient,
             'message': message,
+            'notification_type': notification_type,
         }
+
         if persona_id is not None:
             post_data['persona_id'] = persona_id
+        if tag is not None:
+            post_data['tag'] = tag
+
         resp = await self.post('/me/messages', data=post_data)
+        return resp
+
+    async def send_text(
+            self,
+            recipient: Union[str, Mapping[str, str]],
+            text: str,
+            messaging_type: str = 'UPDATE',
+            notification_type: str = 'REGULAR',
+            tag: str = None,
+            persona_id: str = None,
+        ):
+        message = {'text': text}
+        resp = await self.send_message(
+            recipient=recipient,
+            message=message,
+            messaging_type=messaging_type,
+            notification_type=notification_type,
+            tag=tag,
+            persona_id=persona_id,
+        )
         return resp
 
     async def debug_token(self):
